@@ -28,7 +28,7 @@ public class VoteService {
     private final VoteRepository voteRepository;
     @Autowired
     private final VoteItemRepository voteItemRepository;
-    private final SimpMessagingTemplate simpMessagingTemplate;
+//    private final SimpMessagingTemplate simpMessagingTemplate;
 
 
     //득표율 집계 및 전송
@@ -43,8 +43,8 @@ public class VoteService {
                         item->totalVotes>0?(double)item.getVoteCount()/totalVotes*100:0.0
                 ));
 
-        // WebSocket을 통해 클라이언트에 득표율 전송
-        simpMessagingTemplate.convertAndSend("/subscribe/vote/" + voteId, votePercentages);
+//        // WebSocket을 통해 클라이언트에 득표율 전송
+//        simpMessagingTemplate.convertAndSend("/subscribe/vote/" + voteId, votePercentages);
     }
     
 

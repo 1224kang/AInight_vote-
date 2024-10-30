@@ -30,7 +30,7 @@ public class VoteItem {
 
 
     @Column(name="voteCount")
-    private Integer voteCount;
+    private Integer voteCount=0;
 
     @JoinColumn(name="voteId",nullable = true)
     @ManyToOne(fetch=FetchType.LAZY)
