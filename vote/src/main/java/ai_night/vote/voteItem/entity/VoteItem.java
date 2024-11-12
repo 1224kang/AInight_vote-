@@ -1,12 +1,12 @@
 package ai_night.vote.voteItem.entity;
 
 import ai_night.vote.vote.entity.Vote;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-        import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -21,18 +21,24 @@ public class VoteItem {
     @Column(name="title")
     private String title;
 
-    //이미지 첨부 //fe 상에서 그냥 처리해도 될거같긴함..ㅎㅎ
-    @Column(name="imgs")
-    String path="";
 
     @Column(name="description")
     private String description;
 
 
     @Column(name="voteCount")
-    private Integer voteCount=0;
+    @Builder.Default
+    private int voteCount=0;
+
+
+    @Column(name="turnout")
+    @Builder.Default
+    private double turnout=0;
+
 
     @JoinColumn(name="voteId",nullable = true)
     @ManyToOne(fetch=FetchType.LAZY)
+    @JsonIgnore
     private Vote vote;
+
 }

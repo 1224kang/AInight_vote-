@@ -2,6 +2,8 @@ package ai_night.vote.vote.entity;
 
 import ai_night.vote.vote.Dto.VoteDto;
 import ai_night.vote.voteItem.entity.VoteItem;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,6 +15,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"Vote"})
 public class Vote {
 
     @Id
@@ -23,9 +26,17 @@ public class Vote {
     @Column(name="category")
     private String category;
 
-
     @OneToMany(mappedBy="vote",cascade=CascadeType.ALL)
     private List<VoteItem> voteItems;
+
+
+
+
+
+
+
+
+
 
 
 

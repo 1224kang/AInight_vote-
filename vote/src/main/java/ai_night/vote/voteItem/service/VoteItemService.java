@@ -6,18 +6,12 @@ import ai_night.vote.vote.repository.VoteRepository;
 import ai_night.vote.vote.service.VoteService;
 import ai_night.vote.voteItem.entity.VoteItem;
 import ai_night.vote.voteItem.repository.VoteItemRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.socket.WebSocketSession;
 
 import java.util.*;
 
@@ -52,13 +46,14 @@ public class VoteItemService {
 
     //후보에 대한 투표 -> vote count +1
     @Transactional
-    public void plusNumOfVoteItem(Long voteItemId){
-        VoteItem voteItem = voteItemRepository.findById(voteItemId)
+    public VoteItem votingItem(Long voteItem_id){
+        VoteItem voteItem = voteItemRepository.findById(voteItem_id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid vote item ID"));
         //투표 수 증가
         voteItem.setVoteCount(voteItem.getVoteCount()+1); // 투표 수 증가
 
         // 항목이 속한 투표 ID로 득표율 갱신 및 전송
         voteService.sendVotePercentage(voteItem.getVote().getId());
+        return voteItem;
     }
 }

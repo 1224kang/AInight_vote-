@@ -1,18 +1,12 @@
 package ai_night.vote.vote.controller;
 
 import ai_night.vote.vote.Dto.VoteDto;
-import ai_night.vote.vote.Dto.VoteRequestDto;
 import ai_night.vote.vote.entity.Vote;
 import ai_night.vote.vote.service.VoteService;
 import ai_night.vote.voteItem.entity.VoteItem;
 import ai_night.vote.voteItem.service.VoteItemService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,11 +25,13 @@ public class VoteController {
         return ResponseEntity.ok(vote);
     }
 
-    // WebSocket을 통한 투표 처리
-    @MessageMapping("/voting")
-    public void voting(@RequestBody VoteRequestDto dto){
-        voteItemService.plusNumOfVoteItem(dto.getVoteItemId());
+    // 부문별 투표 결과 조회
+    @GetMapping("/vote/{vote_id}")
+    public ResponseEntity<List<VoteItem>> showResult(@PathVariable("vote_id") Long id) {
+        List<VoteItem> voteItemList = voteService.showResult(id);
+        return ResponseEntity.ok(voteItemList);
     }
+
 
 
 }
